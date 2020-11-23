@@ -1,0 +1,35 @@
+{% extends "layout2.html" %}
+{% block content %}
+{% for hasil2 in hasil.items %}
+<article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="{{ url_for('genre_game', genre=hasil2.genre) }}">{{ hasil2.genre }}</a>
+            <small class="text-muted">(Publisher {{hasil2.publisher}})</small>
+        </div>
+        <h2><a class="article-title">{{ hasil2.name }} ({{ hasil2.year }})</a></h2>
+        <a class="article-content" href="{{ url_for('platform_game', platform=hasil2.platform) }}">
+          <font color="green">{{ hasil2.platform }}</font>
+        </a>
+        <p class="article-content">
+          <font color="red">Sales in NA: {{ hasil2.na_sales }} million</font>
+          <font color="red">Sales in EU: {{ hasil2.eu_sales }} million</font>
+          <font color="red">Sales in JP: {{ hasil2.jp_sales }} million</font>
+          <font color="red">Sales in Other: {{ hasil2.other_sales }} million</font>
+          <font color="red">Total Sales: {{ hasil2.global_sales }} million</font>
+        </p>
+    </div>
+</article>
+{% endfor %}
+{% for page_num in hasil.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+{% if page_num %}
+{% if hasil.page == page_num %}
+<a class="btn btn-info mb-4" href="{{url_for('search',kata=kata, page=page_num) }}">{{ page_num}}</a>
+{% else %}
+<a class="btn btn-outline-info mb-4" href="{{url_for('search',kata=kata, page=page_num) }}">{{ page_num}}</a>
+{% endif %}
+{% else %}
+...
+{% endif %}
+{% endfor %}
+{% endblock content %}

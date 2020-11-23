@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1 class="mb-3">
+    <font color="white">Total : ({{ games.total }})</font>
+</h1>
+{% for game in games.items %}
+<article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="{{ url_for('platform_game', platform=game.platform) }}">{{ game.platform }}</a>
+            <small class="text-muted">(Publisher {{game.publisher}})</small>
+        </div>
+        <h2><a class="article-title">{{ game.name }} ({{ game.year }})</a></h2>
+        <a class="article-content" href="{{ url_for('platform_game', platform=game.platform) }}">
+          <font color="green">{{ game.platform }}</font>
+        </a>
+        <p class="article-content">
+          <font color="red">Sales in NA: {{ game.na_sales }} million</font>
+          <font color="red">Sales in EU: {{ game.eu_sales }} million</font>
+          <font color="red">Sales in JP: {{ game.jp_sales }} million</font>
+          <font color="red">Sales in Other: {{ game.other_sales }} million</font>
+          <font color="red">Total Sales: {{ game.global_sales }} million</font>
+        </p>
+    </div>
+</article>
+{% endfor %}
+{% for page_num in games.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+{% if page_num %}
+{% if games.page == page_num %}
+<a class="btn btn-info mb-4"
+    href="{{url_for('platform_game', platform=games2.platform, page=page_num) }}">{{ page_num}}</a>
+{% else %}
+<a class="btn btn-outline-info mb-4"
+    href="{{url_for('platform_game', platform=games2.platform, page=page_num) }}">{{ page_num}}</a>
+{% endif %}
+{% else %}
+...
+{% endif %}
+{% endfor %}
+{% endblock content %}
